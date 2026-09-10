@@ -13,14 +13,35 @@
 // LiteX sha1 : 37b75bd46
 // Date       : 2026-08-11 16:16:00
 //------------------------------------------------------------------------------
-
+// 
+//------------------------------------------------------------------------------
+// SoC mínimo para projeto CI-Expert
+//
+// - VexRiscv            : CPU RISC-V
+// - hw_sobel_filter     : Filtro de suavização e detecção de bordas 
+// - serial uart         : 115.200 kbps
+// - GPIO 32 bits        (desabilitada)
+// - SDRAM               (desabilitada)
+// - Ethernet            (desabilitada)
+// - Analyzer            (desabilitada)
+// - I2C                 (desabilitada)
+// - SPI Flash           (desabilitada)
+// - Video Framebuffer   (desabilitada)
+// - JTAG                (desabilitada)
+// - ...
+//
+// Inicialização da ROM: --integrated-rom-init=firmware.bin
+// Tamanho da ROM:       --integrated-rom-size=0x8000 ( 32kiB )
+//
+// Alexsandro Bonatto (2026-08-05)
+//------------------------------------------------------------------------------
 `timescale 1ns / 1ps
 
 //------------------------------------------------------------------------------
 // Module
 //------------------------------------------------------------------------------
 
-module sim (
+module soc_top (
     input  wire    [7:0] serial_sink_data,
     output wire          serial_sink_ready,
     input  wire          serial_sink_valid,
