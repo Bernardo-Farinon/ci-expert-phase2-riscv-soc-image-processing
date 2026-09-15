@@ -1,0 +1,13 @@
+/sim/csrc/
+/sim/*.daidir/
+/sim/AN.DB/
+/sim/simv*
+/sim/*.key
+/sim/work.lib++/
+
+/sim/verdiLog/
+/sim/*.log
+/sim/*.fsdb
+/sim/verdi_config_file
+
+/sim/*.init
