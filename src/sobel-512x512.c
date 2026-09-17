@@ -1,3 +1,9 @@
+/*
+	v0 - initial version 
+	v1 - pixel ready flag merged into data pixel register
+	
+*/
+
 #include <stdint.h>
 #include <stddef.h>
 #include "image_data.h"
