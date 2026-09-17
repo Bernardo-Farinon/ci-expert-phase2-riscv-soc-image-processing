@@ -26,14 +26,25 @@ module tb_soc_top;
         .sim_trace(sim_trace)
     );
     
-    initial begin
-        $dumpfile("dump.vcd");
-        $dumpvars(0, tb_soc_top);
-    end
-    
-    initial begin
-        sys_clk = 1'b0;
-        forever #(T/2) sys_clk = ~sys_clk;
+    always #5 sys_clk = ~sys_clk;
+
+    always @(posedge sys_clk) begin
+        if (serial_source_valid) begin
+            $write("%c", serial_source_data); 
+        end
     end
 
+    initial begin
+        $fsdbDumpfile("wave.fsdb");
+        $fsdbDumpvars(0, tb_soc_top);
+        
+        sys_clk = 0;
+        serial_sink_data = 8'd0;
+        serial_sink_valid = 1'b0;
+        serial_source_ready = 1'b1;
+
+        // tempo pra ele rodar
+        #100000000;
+        $finish;
+    end
 endmodule
