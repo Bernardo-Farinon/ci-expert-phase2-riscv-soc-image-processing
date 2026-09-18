@@ -13,14 +13,35 @@
 // LiteX sha1 : 37b75bd46
 // Date       : 2026-08-11 16:16:00
 //------------------------------------------------------------------------------
-
+// 
+//------------------------------------------------------------------------------
+// SoC mínimo para projeto CI-Expert
+//
+// - VexRiscv            : CPU RISC-V
+// - hw_sobel_filter     : Filtro de suavização e detecção de bordas 
+// - serial uart         : 115.200 kbps
+// - GPIO 32 bits        (desabilitada)
+// - SDRAM               (desabilitada)
+// - Ethernet            (desabilitada)
+// - Analyzer            (desabilitada)
+// - I2C                 (desabilitada)
+// - SPI Flash           (desabilitada)
+// - Video Framebuffer   (desabilitada)
+// - JTAG                (desabilitada)
+// - ...
+//
+// Inicialização da ROM: --integrated-rom-init=firmware.bin
+// Tamanho da ROM:       --integrated-rom-size=0x8000 ( 32kiB )
+//
+// Alexsandro Bonatto (2026-08-05)
+//------------------------------------------------------------------------------
 `timescale 1ns / 1ps
 
 //------------------------------------------------------------------------------
 // Module
 //------------------------------------------------------------------------------
 
-module sim (
+module soc_top (
     input  wire    [7:0] serial_sink_data,
     output wire          serial_sink_ready,
     input  wire          serial_sink_valid,
@@ -80,9 +101,7 @@ SimSoC
 │    │    └── csrstatus_0 (CSRStatus) [Gen]
 │    ├── csrbank_1 (CSRBank) [Gen]
 │    │    ├── csrstorage_0 (CSRStorage) [Gen]
-│    │    ├── csrstorage_1 (CSRStorage) [Gen]
-│    │    ├── csrstatus_0 (CSRStatus) [Gen]
-│    │    └── csrstatus_1 (CSRStatus) [Gen]
+│    │    └── csrstatus_0 (CSRStatus) [Gen]
 │    ├── sram_0 (SRAM) [Gen]
 │    ├── csrbank_2 (CSRBank) [Gen]
 │    │    ├── csrstorage_0 (CSRStorage) [Gen]
@@ -143,13 +162,17 @@ reg  signed   [8:0] blur_p5 = 9'd0;
 reg  signed   [8:0] blur_p6 = 9'd0;
 reg  signed   [8:0] blur_p7 = 9'd0;
 reg  signed   [8:0] blur_p8 = 9'd0;
-reg     [7:0] blur_pixel_out0 = 8'd0;
+wire    [7:0] blur_pixel_out0;
 wire    [7:0] blur_pixel_out1;
 reg           blur_pixel_valid0 = 1'd0;
 wire          blur_pixel_valid1;
 reg     [7:0] blur_reg_sink_data1 = 8'd0;
 wire    [7:0] blur_sink_data;
 wire          blur_sink_valid;
+reg           blur_sink_valid_dly0 = 1'd0;
+reg           blur_sink_valid_dly1 = 1'd0;
+reg           blur_sink_valid_dly2 = 1'd0;
+reg           blur_sink_valid_dly3 = 1'd0;
 reg  signed  [16:0] blur_sum_kp_0 = 17'd0;
 reg  signed  [16:0] blur_sum_kp_1 = 17'd0;
 reg  signed  [16:0] blur_sum_kp_2 = 17'd0;
@@ -179,23 +202,15 @@ reg           csr_bankarray_csrbank0_scratch_re = 1'd0;
 wire   [31:0] csr_bankarray_csrbank0_scratch_w;
 reg           csr_bankarray_csrbank0_scratch_we = 1'd0;
 wire          csr_bankarray_csrbank0_sel;
-wire    [7:0] csr_bankarray_csrbank1_data_in_r;
+wire   [31:0] csr_bankarray_csrbank1_data_in_r;
 reg           csr_bankarray_csrbank1_data_in_re = 1'd0;
-wire    [7:0] csr_bankarray_csrbank1_data_in_w;
+wire   [31:0] csr_bankarray_csrbank1_data_in_w;
 reg           csr_bankarray_csrbank1_data_in_we = 1'd0;
-wire   [15:0] csr_bankarray_csrbank1_data_out_r;
+wire   [31:0] csr_bankarray_csrbank1_data_out_r;
 reg           csr_bankarray_csrbank1_data_out_re = 1'd0;
-wire   [15:0] csr_bankarray_csrbank1_data_out_w;
+wire   [31:0] csr_bankarray_csrbank1_data_out_w;
 reg           csr_bankarray_csrbank1_data_out_we = 1'd0;
 wire          csr_bankarray_csrbank1_sel;
-wire          csr_bankarray_csrbank1_start_r;
-reg           csr_bankarray_csrbank1_start_re = 1'd0;
-wire          csr_bankarray_csrbank1_start_w;
-reg           csr_bankarray_csrbank1_start_we = 1'd0;
-wire          csr_bankarray_csrbank1_valid_out_r;
-reg           csr_bankarray_csrbank1_valid_out_re = 1'd0;
-wire          csr_bankarray_csrbank1_valid_out_w;
-reg           csr_bankarray_csrbank1_valid_out_we = 1'd0;
 wire          csr_bankarray_csrbank2_en_r;
 reg           csr_bankarray_csrbank2_en_re = 1'd0;
 wire          csr_bankarray_csrbank2_en_w;
@@ -291,10 +306,10 @@ wire   [31:0] csr_interconnect_dat_r;
 wire   [31:0] csr_interconnect_dat_w;
 wire          csr_interconnect_re;
 wire          csr_interconnect_we;
-reg     [7:0] data_in_storage = 8'd0;
+reg    [31:0] data_in_storage = 32'd0;
 reg           data_in_wr_stb = 1'd0;
 wire          data_out_rd_stb;
-wire   [15:0] data_out_status;
+reg    [31:0] data_out_status = 32'd0;
 reg           data_out_wr_stb = 1'd0;
 wire          dbus_ack;
 wire   [29:0] dbus_adr;
@@ -342,7 +357,7 @@ reg    [31:0] interrupt = 32'd0;
 reg     [2:0] master = 3'd0;
 reg           next_state = 1'd0;
 wire          por_clk;
-wire   [15:0] ram_adr;
+wire   [12:0] ram_adr;
 reg           ram_adr_burst = 1'd0;
 reg           ram_bus_ram_bus_ack = 1'd0;
 wire   [29:0] ram_bus_ram_bus_adr;
@@ -446,6 +461,10 @@ reg  signed   [8:0] sobel_p8 = 9'd0;
 reg     [7:0] sobel_reg_sink_data1 = 8'd0;
 wire    [7:0] sobel_sink_data;
 wire          sobel_sink_valid;
+reg           sobel_sink_valid_dly0 = 1'd0;
+reg           sobel_sink_valid_dly1 = 1'd0;
+reg           sobel_sink_valid_dly2 = 1'd0;
+reg           sobel_sink_valid_dly3 = 1'd0;
 reg    [15:0] sobel_source_data = 16'd0;
 reg           sobel_source_valid = 1'd0;
 reg  signed  [16:0] sobel_sum_gx_kp_0 = 17'd0;
@@ -463,9 +482,8 @@ reg  signed  [17:0] sobel_sum_gy_kp_4 = 18'd0;
 reg  signed  [17:0] sobel_sum_gy_kp_5 = 18'd0;
 reg  signed  [18:0] sobel_sum_gy_kp_6 = 19'd0;
 reg           soc_rst = 1'd0;
+wire          start;
 reg           start_dly = 1'd0;
-reg           start_storage = 1'd0;
-reg           start_wr_stb = 1'd0;
 reg           state = 1'd0;
 wire          sys_clk_1;
 wire          sys_rst;
@@ -633,9 +651,6 @@ wire          uart_core_uart_source_last;
 wire    [7:0] uart_core_uart_source_payload_data;
 wire          uart_core_uart_source_ready;
 wire          uart_core_uart_source_valid;
-wire          valid_out_rd_stb;
-wire          valid_out_status;
-reg           valid_out_wr_stb = 1'd0;
 reg    [31:0] vexriscv = 32'd0;
 wire          wait_1;
 
@@ -672,7 +687,7 @@ assign request = {dbus_cyc, ibus_cyc};
 always @(*) begin
     master = 3'd0;
     master[0] = (shared_adr[29:13] == 1'd0);
-    master[1] = (shared_adr[29:16] == 11'h400);
+    master[1] = (shared_adr[29:13] == 14'h2000);
     master[2] = (shared_adr[29:14] == 16'hf000);
 end
 assign simsoc_ram_bus_adr = shared_adr;
@@ -724,7 +739,7 @@ always @(*) begin
     ram_we[2] = (((ram_bus_ram_bus_cyc & ram_bus_ram_bus_stb) & ram_bus_ram_bus_we) & ram_bus_ram_bus_sel[2]);
     ram_we[3] = (((ram_bus_ram_bus_cyc & ram_bus_ram_bus_stb) & ram_bus_ram_bus_we) & ram_bus_ram_bus_sel[3]);
 end
-assign ram_adr = ram_bus_ram_bus_adr[15:0];
+assign ram_adr = ram_bus_ram_bus_adr[12:0];
 assign ram_bus_ram_bus_dat_r = ram_dat_r;
 assign ram_dat_w = ram_bus_ram_bus_dat_w;
 assign uart_core_uart_sink_valid = uart_core_source_valid;
@@ -882,15 +897,14 @@ assign blur_gb_k7 = 2'd2;
 assign sobel_gx_k8 = 1'd1;
 assign sobel_gy_k8 = 1'd1;
 assign blur_gb_k8 = 1'd1;
-assign sink_valid_pulse = (start_storage & (~start_dly));
-assign blur_sink_data = data_in_storage;
+assign start = data_in_storage[24];
+assign sink_valid_pulse = (start & (~start_dly));
+assign blur_sink_data = data_in_storage[7:0];
 assign blur_sink_valid = sink_valid_pulse;
 assign blur_pixel_out1 = blur_pixel_out0;
 assign blur_pixel_valid1 = blur_pixel_valid0;
 assign sobel_sink_data = blur_pixel_out1;
 assign sobel_sink_valid = blur_pixel_valid1;
-assign data_out_status = sobel_source_data;
-assign valid_out_status = sobel_source_valid;
 assign sobel_p1_adr = sobel_col;
 assign sobel_p2_rd_adr = sobel_col;
 assign sobel_p2_wr_adr = sobel_col_dly;
@@ -951,6 +965,7 @@ always @(*) begin
         blur_p2_wr_we = 1'd0;
     end
 end
+assign blur_pixel_out0 = (blur_gb >>> 3'd4);
 always @(*) begin
     register = 1'd0;
     register = 1'd0;
@@ -1029,7 +1044,7 @@ assign csr_bankarray_csrbank0_scratch_w = scratch_storage;
 assign csr_bankarray_csrbank0_bus_errors_w = bus_errors_status;
 assign bus_errors_rd_stb = csr_bankarray_csrbank0_bus_errors_we;
 assign csr_bankarray_csrbank1_sel = (csr_bankarray_interface1_bank_bus_adr[13:9] == 1'd1);
-assign csr_bankarray_csrbank1_data_in_r = csr_bankarray_interface1_bank_bus_dat_w[7:0];
+assign csr_bankarray_csrbank1_data_in_r = csr_bankarray_interface1_bank_bus_dat_w;
 always @(*) begin
     csr_bankarray_csrbank1_data_in_re = 1'd0;
     csr_bankarray_csrbank1_data_in_we = 1'd0;
@@ -1038,39 +1053,18 @@ always @(*) begin
         csr_bankarray_csrbank1_data_in_we = csr_bankarray_interface1_bank_bus_re;
     end
 end
-assign csr_bankarray_csrbank1_start_r = csr_bankarray_interface1_bank_bus_dat_w[0];
-always @(*) begin
-    csr_bankarray_csrbank1_start_re = 1'd0;
-    csr_bankarray_csrbank1_start_we = 1'd0;
-    if ((csr_bankarray_csrbank1_sel & (csr_bankarray_interface1_bank_bus_adr[8:0] == 1'd1))) begin
-        csr_bankarray_csrbank1_start_re = csr_bankarray_interface1_bank_bus_we;
-        csr_bankarray_csrbank1_start_we = csr_bankarray_interface1_bank_bus_re;
-    end
-end
-assign csr_bankarray_csrbank1_data_out_r = csr_bankarray_interface1_bank_bus_dat_w[15:0];
+assign csr_bankarray_csrbank1_data_out_r = csr_bankarray_interface1_bank_bus_dat_w;
 always @(*) begin
     csr_bankarray_csrbank1_data_out_re = 1'd0;
     csr_bankarray_csrbank1_data_out_we = 1'd0;
-    if ((csr_bankarray_csrbank1_sel & (csr_bankarray_interface1_bank_bus_adr[8:0] == 2'd2))) begin
+    if ((csr_bankarray_csrbank1_sel & (csr_bankarray_interface1_bank_bus_adr[8:0] == 1'd1))) begin
         csr_bankarray_csrbank1_data_out_re = csr_bankarray_interface1_bank_bus_we;
         csr_bankarray_csrbank1_data_out_we = csr_bankarray_interface1_bank_bus_re;
     end
 end
-assign csr_bankarray_csrbank1_valid_out_r = csr_bankarray_interface1_bank_bus_dat_w[0];
-always @(*) begin
-    csr_bankarray_csrbank1_valid_out_re = 1'd0;
-    csr_bankarray_csrbank1_valid_out_we = 1'd0;
-    if ((csr_bankarray_csrbank1_sel & (csr_bankarray_interface1_bank_bus_adr[8:0] == 2'd3))) begin
-        csr_bankarray_csrbank1_valid_out_re = csr_bankarray_interface1_bank_bus_we;
-        csr_bankarray_csrbank1_valid_out_we = csr_bankarray_interface1_bank_bus_re;
-    end
-end
 assign csr_bankarray_csrbank1_data_in_w = data_in_storage;
-assign csr_bankarray_csrbank1_start_w = start_storage;
 assign csr_bankarray_csrbank1_data_out_w = data_out_status;
 assign data_out_rd_stb = csr_bankarray_csrbank1_data_out_we;
-assign csr_bankarray_csrbank1_valid_out_w = valid_out_status;
-assign valid_out_rd_stb = csr_bankarray_csrbank1_valid_out_we;
 assign csr_bankarray_sel = (csr_bankarray_sram_bus_adr[13:9] == 2'd2);
 always @(*) begin
     csr_bankarray_sram_bus_dat_r = 32'd0;
@@ -1497,7 +1491,17 @@ always @(posedge sys_clk_1) begin
     if ((timer_zero_trigger & (~timer_zero_trigger_d))) begin
         timer_zero_pending <= 1'd1;
     end
-    start_dly <= start_storage;
+    start_dly <= start;
+    data_out_status[7:0] <= blur_pixel_out1;
+    if (blur_pixel_valid1) begin
+        data_out_status[24] <= 1'd1;
+    end else begin
+        if (sink_valid_pulse) begin
+            data_out_status[24] <= 1'd0;
+        end else begin
+            data_out_status[24] <= data_out_status[24];
+        end
+    end
     sobel_sum_gx_kp_0 <= ((sobel_gx_k0 * sobel_p8) + (sobel_gx_k1 * sobel_p7));
     sobel_sum_gy_kp_0 <= ((sobel_gy_k0 * sobel_p8) + (sobel_gy_k1 * sobel_p7));
     sobel_sum_gx_kp_1 <= ((sobel_gx_k2 * sobel_p6) + (sobel_gx_k3 * sobel_p5));
@@ -1531,10 +1535,12 @@ always @(posedge sys_clk_1) begin
         sobel_p0 <= sobel_p1;
         sobel_p1 <= sobel_p2;
         sobel_p2 <= sobel_p2_rd_dat_r;
-        sobel_source_valid <= 1'd1;
-    end else begin
-        sobel_source_valid <= 1'd0;
     end
+    sobel_sink_valid_dly0 <= sobel_sink_valid;
+    sobel_sink_valid_dly1 <= sobel_sink_valid_dly0;
+    sobel_sink_valid_dly2 <= sobel_sink_valid_dly1;
+    sobel_sink_valid_dly3 <= sobel_sink_valid_dly2;
+    sobel_source_valid <= sobel_sink_valid_dly3;
     blur_sum_kp_0 <= ((blur_gb_k0 * blur_p8) + (blur_gb_k1 * blur_p7));
     blur_sum_kp_1 <= ((blur_gb_k2 * blur_p6) + (blur_gb_k3 * blur_p5));
     blur_sum_kp_2 <= ((blur_gb_k4 * blur_p4) + (blur_gb_k5 * blur_p3));
@@ -1543,7 +1549,6 @@ always @(posedge sys_clk_1) begin
     blur_sum_kp_5 <= (blur_sum_kp_2 + blur_sum_kp_3);
     blur_sum_kp_6 <= (blur_sum_kp_4 + blur_sum_kp_5);
     blur_gb <= (blur_sum_kp_6 + (blur_gb_k8 * blur_p0));
-    blur_pixel_out0 <= (blur_gb >>> 3'd4);
     if (blur_sink_valid) begin
         if ((blur_col == 5'd31)) begin
             blur_col <= 1'd0;
@@ -1561,10 +1566,12 @@ always @(posedge sys_clk_1) begin
         blur_p0 <= blur_p1;
         blur_p1 <= blur_p2;
         blur_p2 <= blur_p2_rd_dat_r;
-        blur_pixel_valid0 <= 1'd1;
-    end else begin
-        blur_pixel_valid0 <= 1'd0;
     end
+    blur_sink_valid_dly0 <= blur_sink_valid;
+    blur_sink_valid_dly1 <= blur_sink_valid_dly0;
+    blur_sink_valid_dly2 <= blur_sink_valid_dly1;
+    blur_sink_valid_dly3 <= blur_sink_valid_dly2;
+    blur_pixel_valid0 <= blur_sink_valid_dly3;
     state <= next_state;
     csr_bankarray_interface0_bank_bus_dat_r <= 1'd0;
     if (csr_bankarray_csrbank0_sel) begin
@@ -1596,13 +1603,7 @@ always @(posedge sys_clk_1) begin
                 csr_bankarray_interface1_bank_bus_dat_r <= csr_bankarray_csrbank1_data_in_w;
             end
             1'd1: begin
-                csr_bankarray_interface1_bank_bus_dat_r <= csr_bankarray_csrbank1_start_w;
-            end
-            2'd2: begin
                 csr_bankarray_interface1_bank_bus_dat_r <= csr_bankarray_csrbank1_data_out_w;
-            end
-            2'd3: begin
-                csr_bankarray_interface1_bank_bus_dat_r <= csr_bankarray_csrbank1_valid_out_w;
             end
         endcase
     end
@@ -1610,12 +1611,7 @@ always @(posedge sys_clk_1) begin
         data_in_storage <= csr_bankarray_csrbank1_data_in_r;
     end
     data_in_wr_stb <= csr_bankarray_csrbank1_data_in_re;
-    if (csr_bankarray_csrbank1_start_re) begin
-        start_storage <= csr_bankarray_csrbank1_start_r;
-    end
-    start_wr_stb <= csr_bankarray_csrbank1_start_re;
     data_out_wr_stb <= csr_bankarray_csrbank1_data_out_re;
-    valid_out_wr_stb <= csr_bankarray_csrbank1_valid_out_re;
     csr_bankarray_sel_r <= csr_bankarray_sel;
     csr_bankarray_interface2_bank_bus_dat_r <= 1'd0;
     if (csr_bankarray_csrbank2_sel) begin
@@ -1787,7 +1783,10 @@ always @(posedge sys_clk_1) begin
         sobel_sum_gy_kp_5 <= 18'd0;
         sobel_sum_gy_kp_6 <= 19'd0;
         sobel_reg_sink_data1 <= 8'd0;
-        blur_pixel_out0 <= 8'd0;
+        sobel_sink_valid_dly0 <= 1'd0;
+        sobel_sink_valid_dly1 <= 1'd0;
+        sobel_sink_valid_dly2 <= 1'd0;
+        sobel_sink_valid_dly3 <= 1'd0;
         blur_pixel_valid0 <= 1'd0;
         blur_col <= 5'd0;
         blur_col_dly <= 5'd0;
@@ -1809,12 +1808,14 @@ always @(posedge sys_clk_1) begin
         blur_sum_kp_5 <= 18'd0;
         blur_sum_kp_6 <= 19'd0;
         blur_reg_sink_data1 <= 8'd0;
-        data_in_storage <= 8'd0;
+        blur_sink_valid_dly0 <= 1'd0;
+        blur_sink_valid_dly1 <= 1'd0;
+        blur_sink_valid_dly2 <= 1'd0;
+        blur_sink_valid_dly3 <= 1'd0;
+        data_in_storage <= 32'd0;
         data_in_wr_stb <= 1'd0;
-        start_storage <= 1'd0;
-        start_wr_stb <= 1'd0;
+        data_out_status <= 32'd0;
         data_out_wr_stb <= 1'd0;
-        valid_out_wr_stb <= 1'd0;
         start_dly <= 1'd0;
         grant <= 1'd0;
         slaves <= 3'd0;
@@ -1845,14 +1846,14 @@ assign simsoc_dat_r = rom_dat0;
 
 
 //------------------------------------------------------------------------------
-// Memory sram: 65536-words x 32-bit
+// Memory sram: 8192-words x 32-bit
 //------------------------------------------------------------------------------
 // Port 0 | Read: Sync  | Write: Sync | Mode: Write-First | Write-Granularity: 8
-reg [31:0] sram[0:65535];
+reg [31:0] sram[0:8191];
 initial begin
 	$readmemh("sim_sram.init", sram);
 end
-reg [15:0] sram_adr0;
+reg [12:0] sram_adr0;
 always @(posedge sys_clk_1) begin : mem_write_block
 	integer we_index;
 	for(we_index = 0; we_index < 4; we_index=we_index+1)
@@ -2030,5 +2031,5 @@ VexRiscv VexRiscv(
 endmodule
 
 // -----------------------------------------------------------------------------
-//  Auto-Generated by LiteX on 2026-08-11 16:16:00.
+//  Auto-Generated by LiteX on 2026-09-10 14:06:13.
 //------------------------------------------------------------------------------

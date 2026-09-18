@@ -1,3 +1,7 @@
+ise/
+build/
+sim/verilator/
+
 /sim/csrc/
 /sim/*.daidir/
 /sim/AN.DB/
