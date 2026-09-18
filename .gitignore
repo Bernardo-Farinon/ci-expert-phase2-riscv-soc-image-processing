@@ -11,3 +11,6 @@
 /sim/verdi_config_file
 
 /sim/*.init
+
+/sim/novas.rc
+/sim/novas.conf
