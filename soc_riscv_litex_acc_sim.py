@@ -19,6 +19,7 @@
 # Tamanho da ROM:       --integrated-rom-size=0x8000 ( 32kiB )
 #
 # Alexsandro Bonatto (2026-08-05)
+# 		2026-09-21: configurações para processar imagens 32x32 pixels
 #------------------------------------------------------------------------------
 
 #
