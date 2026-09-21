@@ -6,7 +6,7 @@ def image_to_c_header(image_path, output_header):
     img_gray = img.convert('L')
     img_gray.save("Resultado_gray.bmp")
     
-    img = img.resize((512, 512)) 
+    img = img.resize((32, 32)) 
     width, height = img.size
     
     pixels = list(img.getdata())
