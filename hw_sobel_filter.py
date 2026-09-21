@@ -319,11 +319,9 @@ class FiltroSobelWrapper(Module, AutoCSR):
         
         self.sync += [
             # Saídas
-            # self.data_out.status[0:8].eq(self.sobel.source_data),
-            self.data_out.status[0:8].eq(self.blur_pixel_out),  # teste para ver a saída do filtro
+            self.data_out.status[0:8].eq(self.sobel.source_data),
             # Gera flag de longa duração para sincronizar com barramento
-            #If(self.sobel.source_valid,
-            If(self.blur_pixel_valid,   # teste para ver a saída do filtro
+            If(self.sobel.source_valid,
                 self.data_out.status[24].eq(1)
             ).Elif(sink_valid_pulse,
                 self.data_out.status[24].eq(0)
@@ -331,4 +329,18 @@ class FiltroSobelWrapper(Module, AutoCSR):
                 self.data_out.status[24].eq(self.data_out.status[24])
             )
         ]
+
+        # teste para ver a saída do filtro de suavização
+        # self.sync += [
+        #     # Saídas
+        #     self.data_out.status[0:8].eq(self.blur_pixel_out),  
+        #     # Gera flag de longa duração para sincronizar com barramento
+        #     If(self.blur_pixel_valid,   # teste para ver a saída do filtro
+        #         self.data_out.status[24].eq(1)
+        #     ).Elif(sink_valid_pulse,
+        #         self.data_out.status[24].eq(0)
+        #     ).Else(
+        #         self.data_out.status[24].eq(self.data_out.status[24])
+        #     )
+        # ]
 

@@ -34,6 +34,7 @@
 // Tamanho da ROM:       --integrated-rom-size=0x8000 ( 32kiB )
 //
 // Alexsandro Bonatto (2026-08-05)
+// 		2026-09-21: configurações para processar imagens 32x32 pixels
 //------------------------------------------------------------------------------
 `timescale 1ns / 1ps
 
@@ -1492,8 +1493,8 @@ always @(posedge sys_clk_1) begin
         timer_zero_pending <= 1'd1;
     end
     start_dly <= start;
-    data_out_status[7:0] <= blur_pixel_out1;
-    if (blur_pixel_valid1) begin
+    data_out_status[7:0] <= sobel_source_data;
+    if (sobel_source_valid) begin
         data_out_status[24] <= 1'd1;
     end else begin
         if (sink_valid_pulse) begin
