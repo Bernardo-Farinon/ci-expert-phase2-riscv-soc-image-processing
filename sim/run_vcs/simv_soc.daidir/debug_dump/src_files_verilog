@@ -1,0 +1,5 @@
+/home/ciexpert/bernardo.farinon/ci-expert-phase2-riscv-soc-image-processing/bench/tb_soc_top.v
+/home/ciexpert/bernardo.farinon/ci-expert-phase2-riscv-soc-image-processing/rtl/soc_top/soc_top.v
+/home/ciexpert/bernardo.farinon/ci-expert-phase2-riscv-soc-image-processing/rtl/vexriscv/DataCache.v
+/home/ciexpert/bernardo.farinon/ci-expert-phase2-riscv-soc-image-processing/rtl/vexriscv/InstructionCache.v
+/home/ciexpert/bernardo.farinon/ci-expert-phase2-riscv-soc-image-processing/rtl/vexriscv/VexRiscv.v

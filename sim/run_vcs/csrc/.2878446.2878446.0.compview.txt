@@ -1,0 +1,9 @@
+{"vcs1":{"timestamp_begin":1789752310.325027634, "rt":2.62, "ut":1.02, "st":0.36}}
+{"vcselab":{"timestamp_begin":1789752313.067789159, "rt":0.87, "ut":0.22, "st":0.12}}
+{"link":{"timestamp_begin":1789752314.033267676, "rt":0.72, "ut":0.12, "st":0.13}}
+{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1789752309.530053537}
+{"VCS_COMP_START_TIME": 1789752309.530053537}
+{"VCS_COMP_END_TIME": 1789752315.413199450}
+{"VCS_USER_OPTIONS": "-full64 -sverilog -kdb -lca -debug_access+all +incdir+../../rtl +incdir+../../rtl/soc_top +incdir+../../rtl/vexriscv ../../rtl/soc_top/soc_top.v ../../rtl/vexriscv/DataCache.v ../../rtl/vexriscv/InstructionCache.v ../../rtl/vexriscv/VexRiscv.v ../../bench/tb_soc_top.v -o simv_soc"}
+{"vcs1": {"peak_mem": 495860}}
+{"vcselab": {"peak_mem": 199876}}

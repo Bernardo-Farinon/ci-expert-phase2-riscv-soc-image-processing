@@ -1,0 +1,23 @@
+rc file Version 1.0
+
+[Design]
+COMPILE_PATH=/home/ciexpert/bernardo.farinon/ci-expert-phase2-riscv-soc-image-processing/sim/run_vcs
+VCS_HOME=/tools/synopsys/vcs/W-2024.09-SP2-3
+VERDI_HOME=/tools/synopsys/verdi/W-2024.09-SP2-6
+SystemC=FALSE
+UUM=FALSE
+KDB=TRUE
+USE_NOVAS_HOME=FALSE
+COSIM=FALSE
+TOP=tb_soc_top 
+OPTION=-ssv -ssy 
+ELAB_OPTION=-ssv -ssy 
+ELAB=TRUE
+COMMON_ELAB=TRUE
+SIMV_WRAPPER=FALSE
+[Value]
+WREALX=ffff534e50535f58
+WREALZ=ffff534e50535f5a
+
+[CompInfo]
+FLOW_OPTS=-kdb=common_elab -ssv -ssy 

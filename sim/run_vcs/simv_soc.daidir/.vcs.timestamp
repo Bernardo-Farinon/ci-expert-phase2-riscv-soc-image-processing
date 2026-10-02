@@ -1,0 +1,146 @@
+0
+48
++incdir+../../rtl
++incdir+../../rtl/soc_top
++incdir+../../rtl/vexriscv
++itf+/tools/synopsys/vcs/W-2024.09-SP2-3/linux64/lib/vcsdp_lite.tab
++vcsd1
++vpi
+-Mamsrun=
+-Masflags=
+-Mcc=gcc
+-Mcfl= -pipe -fPIC -O -I/tools/synopsys/vcs/W-2024.09-SP2-3/include
+-Mcplusplus=g++
+-Mcrt0=
+-Mcrtn=
+-Mcsrc=
+-Mexternalobj=
+-Mldflags= -rdynamic
+-Mobjects= /tools/synopsys/vcs/W-2024.09-SP2-3/linux64/lib/libvirsim.so /tools/synopsys/vcs/W-2024.09-SP2-3/linux64/lib/liberrorinf.so /tools/synopsys/vcs/W-2024.09-SP2-3/linux64/lib/libsnpsmalloc.so /tools/synopsys/vcs/W-2024.09-SP2-3/linux64/lib/libvfs.so
+-Mout=simv_soc
+-Msaverestoreobj=/tools/synopsys/vcs/W-2024.09-SP2-3/linux64/lib/vcs_save_restore_new.o
+-Msyslibs=/tools/synopsys/verdi/W-2024.09-SP2-6/share/PLI/VCS/LINUX64/pli.a -ldl
+-Mvcsaceobjs=
+-Mxcflags= -pipe -fPIC -I/tools/synopsys/vcs/W-2024.09-SP2-3/include
+-Mxllcflags=
+-P
+-Xufe=2steps
+-Xufe=2steps
+-Xufe=2steps
+-Xufe=2steps
+-debug_access+all
+-fsdb
+-full64
+-gen_obj
+-kdb
+-kdb=common_elab
+-kdb=common_elab
+-kdb=common_elab
+-lca
+-o simv_soc
+-picarchive
+-sverilog
+/tools/synopsys/vcs/W-2024.09-SP2-3/linux64/bin/vcs1
+simv_soc
+/tools/synopsys/verdi/W-2024.09-SP2-6/share/PLI/VCS/LINUX64/verdi.tab
+../../rtl/soc_top/soc_top.v
+../../rtl/vexriscv/DataCache.v
+../../rtl/vexriscv/InstructionCache.v
+../../rtl/vexriscv/VexRiscv.v
+../../bench/tb_soc_top.v
+78
+which_declare=declare -f
+_LMFILES__modshare=/tools/modulefiles/synopsys/vcs/W-2024.09-SP2-3:1:/tools/modulefiles/synopsys/verdi/W-2024.09-SP2-6:1
+_LMFILES_=/tools/modulefiles/synopsys/verdi/W-2024.09-SP2-6:/tools/modulefiles/synopsys/vcs/W-2024.09-SP2-3
+XDG_SESSION_ID=3476
+XDG_RUNTIME_DIR=/run/user/166413
+XDG_DATA_DIRS=/home/ciexpert/bernardo.farinon/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
+VSCODE_PYTHON_AUTOACTIVATE_GUARD=1
+VSCODE_IPC_HOOK_CLI=/run/user/166413/vscode-ipc-e05a380f-6a6b-4f08-9fa0-cdab46d82d40.sock
+VSCODE_GIT_IPC_HANDLE=/run/user/166413/vscode-git-fe6f1fc869.sock
+VSCODE_GIT_ASKPASS_NODE=/home/ciexpert/bernardo.farinon/.vscode-server/cli/servers/Stable-7debcd0e2acdea1c52de81bf9ee1620444407dda/server/node
+VSCODE_GIT_ASKPASS_MAIN=/home/ciexpert/bernardo.farinon/.vscode-server/cli/servers/Stable-7debcd0e2acdea1c52de81bf9ee1620444407dda/server/extensions/git/dist/askpass-main.js
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+VMR_MODE_FLAG=64
+VERDI_HOME=/tools/synopsys/verdi/W-2024.09-SP2-6
+VC_HOME=/tools/synopsys/vcs/W-2024.09-SP2-3/linux64/bin
+VCS_TARGET_ARCH=amd64
+VCS_PYTHON3=/tools/synopsys/vcs/W-2024.09-SP2-3/linux64/bin/Python3/bin/python3
+VCS_PATHMAP_PRELOAD_DONE=1
+VCS_MX_HOME_INTERNAL=1
+VCS_MODE_FLAG=64
+VCS_LCAMSG_PRINT_OFF=1
+VCS_INTERNAL_CONVERTEDLIBS=
+VCS_HOME=/tools/synopsys/vcs/W-2024.09-SP2-3
+VCS_EXEC_DONE=1
+VCS_DEPTH=0
+VCS_ARG_ADDED_FOR_TMP=1
+VCS_ARCH=linux64
+UNAME=/bin/uname
+TOOL_HOME=/tools/synopsys/vcs/W-2024.09-SP2-3/linux64
+TERM_PROGRAM_VERSION=1.138.0
+TERM_PROGRAM=vscode
+SSH_CONNECTION=143.54.145.14 59974 143.54.85.180 22
+SSH_CLIENT=143.54.145.14 59974 22
+SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
+SNPS_VERDI_INTERNAL_LP_XML_NEW_FLOW=1
+SNPS_VCS_VHDL_WRAPPER_KDB=1
+SNPS_VCS_PYTHON3=/tools/synopsys/vcs/W-2024.09-SP2-3/linux64/bin/Python3/bin/python3
+SNPS_VCS_CLANG_PATH=/tools/synopsys/vcs/W-2024.09-SP2-3/linux64/clang
+SNPS_INTERNAL_VCS_LINUX_OS=linux
+SNPSLMD_LICENSE_FILE_modshare=27010@pgmicro01.ufrgs.br:2
+SELINUX_USE_CURRENT_RANGE=
+SELINUX_ROLE_REQUESTED=
+SELINUX_LEVEL_REQUESTED=
+SCRNAME=vcs
+SCRIPT_NAME=vcs
+PATH_modshare=/usr/bin:1:/home/ciexpert/bernardo.farinon/.local/bin:1:/usr/share/Modules/bin:1:/usr/local/bin:1:/tools/amd_old/Vitis/2023.2/gnu/riscv/lin/riscv64-unknown-elf/bin:1:/caminho/para/o/riscv/bin:1:/home/ciexpert/bernardo.farinon/bin:1:/home/ciexpert/bernardo.farinon/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli:1:/home/ciexpert/bernardo.farinon/.vscode-server/cli/servers/Stable-7debcd0e2acdea1c52de81bf9ee1620444407dda/server/bin/remote-cli:1:/usr/sbin:1:/tools/synopsys/vcs/W-2024.09-SP2-3/bin:1:/usr/local/sbin:1:/tools/synopsys/verdi/W-2024.09-SP2-6/bin:1:/home/ciexpert/bernardo.farinon/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand:1
+OVA_UUM=0
+MODULES_RUN_QUARANTINE=LD_LIBRARY_PATH LD_PRELOAD
+MODULES_LMPREREQ_modshare=vcs/W-2024.09-SP2-3&verdi:1
+MODULES_LMPREREQ=vcs/W-2024.09-SP2-3&verdi
+MODULES_LMNOTUASKED_modshare=verdi/W-2024.09-SP2-6:1
+MODULES_LMNOTUASKED=verdi/W-2024.09-SP2-6
+MODULES_CMD=/usr/share/Modules/libexec/modulecmd.tcl
+MODULESHOME=/usr/share/Modules
+MODULEPATH_modshare=/tools/modulefiles/silvaco:1:/tools/modulefiles/opensource:1:/usr/share/Modules/modulefiles:2:/tools/modulefiles/siemens:1:/tools/modulefiles/intel:1:/tools/modulefiles/mathworks:1:/tools/modulefiles/amd:1:/tools/modulefiles/cadence:1:/etc/modulefiles:2:/usr/share/modulefiles:2:/tools/modulefiles/stabiesoft:1:/tools/modulefiles/pdk:1:/tools/modulefiles/synopsys:1
+MODULEPATH=/etc/scl/modulefiles:/etc/scl/modulefiles:/etc/scl/modulefiles:/usr/share/Modules/modulefiles:/etc/modulefiles:/usr/share/modulefiles:/tools/modulefiles/cadence:/tools/modulefiles/synopsys:/tools/modulefiles/siemens:/tools/modulefiles/silvaco:/tools/modulefiles/stabiesoft:/tools/modulefiles/intel:/tools/modulefiles/amd:/tools/modulefiles/opensource:/tools/modulefiles/pdk:/tools/modulefiles/mathworks
+MFLAGS=
+MAKE_TERMOUT=/dev/pts/54
+MAKE_TERMERR=/dev/pts/54
+MAKELEVEL=1
+MAKEFLAGS=
+LOADEDMODULES_modshare=vcs/W-2024.09-SP2-3:1:verdi/W-2024.09-SP2-6:1
+LOADEDMODULES=verdi/W-2024.09-SP2-6:vcs/W-2024.09-SP2-3
+LM_LICENSE_FILE_modshare=27010@pgmicro01.ufrgs.br:1
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+LC_ALL=C
+HISTCONTROL=ignoredups
+GIT_ASKPASS=/home/ciexpert/bernardo.farinon/.vscode-server/cli/servers/Stable-7debcd0e2acdea1c52de81bf9ee1620444407dda/server/extensions/git/dist/askpass.sh
+DEBUGINFOD_URLS=https://debuginfod.centos.org/ 
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/166413/bus
+COPILOT_DEBUG_NONCE=de30571d032fb022f410c7206505db3f
+COLORTERM=truecolor
+BASH_FUNC_which%%=() {  ( alias;_ eval ${which_declare} ) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@_}
+BASH_FUNC_switchml%%=() {  typeset swfound=1;_ if [ "${MODULES_USE_COMPAT_VERSION:-0}" = '1' ]; then_ typeset swname='main';_ if [ -e /usr/share/Modules/libexec/modulecmd.tcl ]; then_ typeset swfound=0;_ unset MODULES_USE_COMPAT_VERSION;_ fi;_ else_ typeset swname='compatibility';_ if [ -e /usr/share/Modules/libexec/modulecmd-compat ]; then_ typeset swfound=0;_ MODULES_USE_COMPAT_VERSION=1;_ export MODULES_USE_COMPAT_VERSION;_ fi;_ fi;_ if [ $swfound -eq 0 ]; then_ echo "Switching to Modules $swname version";_ source /usr/share/Modules/init/bash;_ else_ echo "Cannot switch to Modules $swname version, command not found";_ return 1;_ fi_}
+BASH_FUNC_scl%%=() {  if [ "$1" = "load" -o "$1" = "unload" ]; then_ eval "module $@";_ else_ /usr/bin/scl "$@";_ fi_}
+BASH_FUNC_module%%=() {  _module_raw "$@" 2>&1_}
+BASH_FUNC_ml%%=() {  module ml "$@"_}
+BASH_FUNC__module_raw%%=() {  unset _mlshdbg;_ if [ "${MODULES_SILENT_SHELL_DEBUG:-0}" = '1' ]; then_ case "$-" in _ *v*x*)_ set +vx;_ _mlshdbg='vx'_ ;;_ *v*)_ set +v;_ _mlshdbg='v'_ ;;_ *x*)_ set +x;_ _mlshdbg='x'_ ;;_ *)_ _mlshdbg=''_ ;;_ esac;_ fi;_ unset _mlre _mlIFS;_ if [ -n "${IFS+x}" ]; then_ _mlIFS=$IFS;_ fi;_ IFS=' ';_ for _mlv in ${MODULES_RUN_QUARANTINE:-};_ do_ if [ "${_mlv}" = "${_mlv##*[!A-Za-z0-9_]}" -a "${_mlv}" = "${_mlv#[0-9]}" ]; then_ if [ -n "`eval 'echo ${'$_mlv'+x}'`" ]; then_ _mlre="${_mlre:-}${_mlv}_modquar='`eval 'echo ${'$_mlv'}'`' ";_ fi;_ _mlrv="MODULES_RUNENV_${_mlv}";_ _mlre="${_mlre:-}${_mlv}='`eval 'echo ${'$_mlrv':-}'`' ";_ fi;_ done;_ if [ -n "${_mlre:-}" ]; then_ eval `eval ${_mlre} /usr/bin/tclsh /usr/share/Modules/libexec/modulecmd.tcl bash '"$@"'`;_ else_ eval `/usr/bin/tclsh /usr/share/Modules/libexec/modulecmd.tcl bash "$@"`;_ fi;_ _mlstatus=$?;_ if [ -n "${_mlIFS+x}" ]; then_ IFS=$_mlIFS;_ else_ unset IFS;_ fi;_ unset _mlre _mlv _mlrv _mlIFS;_ if [ -n "${_mlshdbg:-}" ]; then_ set -$_mlshdbg;_ fi;_ unset _mlshdbg;_ return $_mlstatus_}
+0
+0
+7
+1789751861 ../../bench/tb_soc_top.v
+1789751861 ../../rtl/vexriscv/VexRiscv.v
+1789743961 ../../rtl/vexriscv/InstructionCache.v
+1789746678 ../../rtl/vexriscv/DataCache.v
+1789746680 ../../rtl/soc_top/soc_top.v
+1761105428 /tools/synopsys/verdi/W-2024.09-SP2-6/share/PLI/VCS/LINUX64/verdi.tab
+1751080315 /tools/synopsys/vcs/W-2024.09-SP2-3/linux64/lib/vcsdp_lite.tab
+4
+1751083201 /tools/synopsys/vcs/W-2024.09-SP2-3/linux64/lib/libvirsim.so
+1751081831 /tools/synopsys/vcs/W-2024.09-SP2-3/linux64/lib/liberrorinf.so
+1751081823 /tools/synopsys/vcs/W-2024.09-SP2-3/linux64/lib/libsnpsmalloc.so
+1751081835 /tools/synopsys/vcs/W-2024.09-SP2-3/linux64/lib/libvfs.so
+1789752220 simv_soc.daidir
+-1 partitionlib
