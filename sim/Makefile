@@ -20,6 +20,7 @@ compile:
 	export VERDI_HOME=$(VERDI_HOME) && \
 	vcs -full64 -sverilog -kdb -lca \
 		-debug_access+all \
+		+vcs+initreg+random \
 		$(INCDIRS) \
 		$(SOURCES) \
 		-o $(SIM_EXEC)
@@ -27,7 +28,7 @@ compile:
 run:
 	ln -sf $(VEX_DIR)/*.init .
 	export VERDI_HOME=$(VERDI_HOME) && \
-	./$(SIM_EXEC)
+	./$(SIM_EXEC) +vcs+initreg+0
 
 clean:
 	rm -rf csrc *.daidir $(SIM_EXEC) *.log *.key *.fsdb novas.* verdiLog AN.DB work.lib++ *.init
