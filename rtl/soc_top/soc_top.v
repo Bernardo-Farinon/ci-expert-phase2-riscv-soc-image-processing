@@ -1856,8 +1856,8 @@ initial begin
 end
 reg [12:0] sram_adr0;
 always @(posedge sys_clk_1) begin : mem_write_block
-	integer we_index;
-	for(we_index = 0; we_index < 4; we_index=we_index+1)
+	// integer we_index; // CORRECAO: declarar dentro do laço for
+	for(integer we_index = 0; we_index < 4; we_index=we_index+1)
 		if (ram_we[we_index])
 			sram[ram_adr][we_index*8 +: 8] <= ram_dat_w[we_index*8 +: 8];
 	sram_adr0 <= ram_adr;

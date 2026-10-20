@@ -1,3 +1,7 @@
 ise/
 build/
 sim/verilator/
+sim/run_vcs/csrc/
+sim/run_vcs/simv_soc.daidir/
+sim/run_vcs/verdiLog/
+syn/dc/work/

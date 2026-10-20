@@ -30,7 +30,8 @@ module tb_soc_top;
 
     always @(posedge sys_clk) begin
         if (serial_source_valid) begin
-            $write("%c", serial_source_data); 
+            $write("%c", serial_source_data);
+            //$write("%02h", serial_source_data);  
         end
     end
 
@@ -44,7 +45,7 @@ module tb_soc_top;
         serial_source_ready = 1'b1;
 
         // tempo pra ele rodar
-        #100000000;
+        #1000000;
         $finish;
     end
 endmodule
