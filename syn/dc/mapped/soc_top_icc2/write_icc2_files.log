@@ -1,0 +1,26 @@
+Writing verilog file '/home/ciexpert/alexsandro.bonatto/ci-expert-phase2-riscv-soc-image-processing/syn/dc/mapped/soc_top_icc2/soc_top.v'.
+Warning: Verilog 'assign' or 'tran' statements are written out. (VO-4)
+1
+1
+Information: No Scenarios exist, writing data for one virtual_scenario
+Information: Creating directory ./mapped/soc_top_icc2/soc_top.MCMM
+Information: There is no user-defined operating conditions in the design. The tool is inferring operating conditions 'ss0p75v125c' from the library 'saed32lvt_ss0p75v125c'. (DCT-399)
+Information: There is no user-defined operating conditions in the design. The tool is inferring operating conditions 'ss0p75v125c' from the library 'saed32lvt_ss0p75v125c'. (DCT-399)
+Information: The default DEF output is in version 5.8. (DCT-320)
+Information: Writing COMPONENTS section (DDEFW-014)
+Information: Completed COMPONENTS section  (DDEFW-016)
+Information: Writing PINS section (DDEFW-014)
+Information: Creating dummy net 'SYNOPSYS_UNCONNECTED_0' for unconnected port 'serial_sink_data[7]'. (DDEFW-006)
+Information: Creating dummy net 'SYNOPSYS_UNCONNECTED_1' for unconnected port 'serial_sink_data[6]'. (DDEFW-006)
+Information: Creating dummy net 'SYNOPSYS_UNCONNECTED_2' for unconnected port 'serial_sink_data[5]'. (DDEFW-006)
+Information: Creating dummy net 'SYNOPSYS_UNCONNECTED_3' for unconnected port 'serial_sink_data[4]'. (DDEFW-006)
+Information: Creating dummy net 'SYNOPSYS_UNCONNECTED_4' for unconnected port 'serial_sink_data[3]'. (DDEFW-006)
+Information: Creating dummy net 'SYNOPSYS_UNCONNECTED_5' for unconnected port 'serial_sink_data[2]'. (DDEFW-006)
+Information: Creating dummy net 'SYNOPSYS_UNCONNECTED_6' for unconnected port 'serial_sink_data[1]'. (DDEFW-006)
+Information: Creating dummy net 'SYNOPSYS_UNCONNECTED_7' for unconnected port 'serial_sink_data[0]'. (DDEFW-006)
+Information: Creating dummy net 'SYNOPSYS_UNCONNECTED_8' for unconnected port 'serial_source_ready'. (DDEFW-006)
+Information: Completed PINS section  (DDEFW-016)
+Information: No groups were written. (RPGP-018)
+1
+Warning: Failed to find cell expansion data in current design.  (PSYN-1240)
+0
