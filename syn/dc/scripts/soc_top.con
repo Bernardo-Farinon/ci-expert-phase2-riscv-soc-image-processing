@@ -1,0 +1,42 @@
+#####################################
+# Constraints file for design soc_top
+#####################################
+
+remove_sdc
+
+#####################################
+# Cria clock de 500 MHz
+
+create_clock -period 2 [get_ports sys_clk] 
+
+set_clock_uncertainty -setup 0.1 [get_clocks sys_clk]
+
+set_clock_transition -max 0.05 [get_clocks sys_clk]
+
+
+#####################################
+# Cria subgrupos para análise de timing
+
+group_path -name CLK -critical_range 0.2 –weight 5
+
+group_path -name INPUT -from [all_inputs]
+
+group_path -name OUTPUT -to [all_outputs]
+
+group_path -name COMBO -from [all_inputs] -to [all_outputs]
+
+
+# Using default "Operating Conditions" 
+# from the "slow corner" library: ss0p75v125c
+# Process :     0.99
+# Temperature : 125.00
+# Voltage :     0.75
+                        
+set_input_delay -clock sys_clk  -max 0.2 [all_inputs]
+remove_input_delay [get_ports sys_clk]
+
+set_driving_cell -max -no_design_rule -lib_cell NBUFFX2_LVT [all_inputs]
+remove_driving_cell [get_ports sys_clk]
+
+set_output_delay -clock sys_clk  -max 0.2 [all_outputs]
+set_load -max 5 [all_outputs]
